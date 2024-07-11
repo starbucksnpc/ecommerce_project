@@ -11,6 +11,22 @@
   </head>
 
   <body>
+
+  <header>
+    <h1></h1>
+    <nav>
+      <%= link_to 'Home', root_path %>
+      <%= link_to 'Products', products_path %>
+      <%= link_to 'Carts', carts_path %>
+      
+    </nav>
+  </header>
+
     <%= yield %>
+
+    <footer>
+    <p>&copy; 2024 My Ecommerce Site</p>
+  </footer>
+
   </body>
 </html>
