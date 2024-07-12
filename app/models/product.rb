@@ -9,7 +9,7 @@ class Product < ApplicationRecord
       end
 
 
-    has_one_attached :images
+    has_many_attached :images
 
 
   has_many :order_items

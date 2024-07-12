@@ -1,7 +1,9 @@
 ActiveAdmin.register Product do
-
   permit_params :name, :description, :price, :stock_quantity, :category_ids, images: []
-  
+
+  filter :name
+  filter :price
+
   index do
     selectable_column
     id_column
@@ -9,13 +11,7 @@ ActiveAdmin.register Product do
     column :description
     column :price
     column :stock_quantity
-    column "Images" do |product|
-      product.images.each do |image|
-        span do
-          image_tag image.variant(resize: "100x100")
-        end
-      end
-    end
+    
     actions
   end
 
@@ -26,10 +22,14 @@ ActiveAdmin.register Product do
       row :price
       row :stock_quantity
       row "Images" do |product|
-        product.images.each do |image|
-          span do
-            image_tag image.variant(resize: "200x200")
+        if product.images.attached?
+          product.images.each do |image|
+            span do
+              image_tag url_for(image.variant(resize: "200x200"))
+            end
           end
+        else
+          span "No Images"
         end
       end
     end
