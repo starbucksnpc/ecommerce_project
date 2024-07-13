@@ -1,9 +1,9 @@
 class StaticPagesController < ApplicationController
-  def contact
-    @page_content = AdminPageContent.get_contact_page_content
+  def about
+    @about_page = StaticPage.find_by(title: "About Us")
   end
 
-  def about
-    @page_content = AdminPageContent.get_about_page_content
+  def contact
+    @contact_page = StaticPage.find_by(title: "Contact")
   end
 end

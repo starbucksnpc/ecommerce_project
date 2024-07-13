@@ -8,7 +8,7 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 # Create an admin user only in development environment if it doesn't exist
-if Rails.env.development?
+=begin if Rails.env.development?
   AdminUser.find_or_create_by!(email: 'admin@example.com') do |user|
     user.password = 'password'
     user.password_confirmation = 'password'
@@ -98,4 +98,25 @@ ProductCategory.create([
   { product_id: 8, category_id: 1 },  
   { product_id: 9, category_id: 2 },  
   { product_id: 10, category_id: 3 }  
-])
+]) 
+
+
+# db/seeds.rb
+
+about_page_content = <<-CONTENT.strip_heredoc
+  <p>This is our About Us page content.</p>
+  <p>You can add any HTML content here.</p>
+CONTENT
+
+contact_page_content = <<-CONTENT.strip_heredoc
+  <p>This is our Contact Us page content.</p>
+  <p>You can add any HTML content here.</p>
+CONTENT
+
+# Create or update StaticPage records
+about_page = StaticPage.find_or_initialize_by(title: 'About Us')
+about_page.update(content: about_page_content)
+
+contact_page = StaticPage.find_or_initialize_by(title: 'Contact Us')
+contact_page.update(content: contact_page_content)
+=end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_12_232516) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_13_013739) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -114,6 +114,14 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_12_232516) do
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
+  create_table "pages", force: :cascade do |t|
+    t.string "title"
+    t.text "content"
+    t.string "slug"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "product_categories", force: :cascade do |t|
     t.integer "product_id", null: false
     t.integer "category_id", null: false
@@ -141,6 +149,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_12_232516) do
     t.decimal "pst_rate"
     t.decimal "hst_rate"
     t.decimal "qst_rate"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "static_pages", force: :cascade do |t|
+    t.string "title"
+    t.text "content"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
