@@ -1,8 +1,10 @@
+# app/admin/products.rb
+
 ActiveAdmin.register Product do
   permit_params :name, :description, :price, :stock_quantity, :category_ids, images: []
 
-  filter :name
-  filter :price
+  # 필터링 제거
+  config.filters = false
 
   index do
     selectable_column
@@ -11,8 +13,16 @@ ActiveAdmin.register Product do
     column :description
     column :price
     column :stock_quantity
-    column "Categories" do |product|
-      product.categories.map(&:name).join(", ")
+    column "Images" do |product|
+      if product.images.attached?
+        product.images.each do |image|
+          span do
+            image_tag url_for(image.variant(resize: "100x100"))
+          end
+        end
+      else
+        "No Images"
+      end
     end
     actions
   end
@@ -31,7 +41,7 @@ ActiveAdmin.register Product do
             end
           end
         else
-          span "No Images"
+          "No Images"
         end
       end
     end
@@ -43,8 +53,8 @@ ActiveAdmin.register Product do
       f.input :description
       f.input :price
       f.input :stock_quantity
+      f.input :categories, as: :check_boxes
       f.input :images, as: :file, input_html: { multiple: true }, hint: f.object.images.attached? ? image_tag(url_for(f.object.images.first.variant(resize: "100x100"))) : content_tag(:span, "Upload JPG/PNG/GIF image")
-      f.input :categories, as: :check_boxes, collection: Category.all
     end
     f.actions
   end

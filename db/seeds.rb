@@ -163,3 +163,112 @@ end
 
 puts "Seed data imported successfully!"
 =end
+
+
+# db/seeds.rb
+
+require 'csv'
+require 'open-uri'
+
+# Clear existing data
+ProductCategory.delete_all
+Product.delete_all
+Category.delete_all
+
+# Create new categories
+categories = %w[Earrings Rings Necklaces Bracelets]
+categories.each do |category_name|
+  Category.create!(name: category_name)
+end
+
+# Import products from CSV
+batch_size = 100
+products = []
+
+CSV.foreach(Rails.root.join('db', 'ecommerce.csv'), headers: true) do |row|
+  # product-link 값을 그대로 파일 이름으로 설정
+  filename = "#{row['product-link']}.jpg"
+
+  products << {
+    name: row['name'],
+    description: row['description'],
+    price: row['price'].to_f,
+    stock_quantity: 10,
+    sale_price: 0.0,
+    new_arrival: false,
+    image_filename: filename,
+    category_name: row['category-link']
+  }
+
+  if products.size >= batch_size
+    Product.transaction do
+      products.each do |product_data|
+        product = Product.new(
+          name: product_data[:name],
+          description: product_data[:description],
+          price: product_data[:price],
+          stock_quantity: product_data[:stock_quantity],
+          sale_price: product_data[:sale_price],
+          new_arrival: product_data[:new_arrival]
+        )
+
+        # Attach image from local file using Active Storage
+        image_filepath = Rails.root.join('db', 'images', product_data[:image_filename])
+        if File.exist?(image_filepath)
+          product.images.attach(io: File.open(image_filepath), filename: product_data[:image_filename])
+          puts "Image attached for product '#{product_data[:name]}'"
+        else
+          puts "Image file not found for product '#{product_data[:name]}'"
+        end
+
+        product.save!
+
+        # Assign categories
+        category = Category.find_by(name: product_data[:category_name])
+        if category
+          ProductCategory.create!(product: product, category: category)
+        else
+          puts "Category '#{product_data[:category_name]}' not found for product '#{product_data[:name]}'"
+        end
+      end
+    end
+    products.clear
+  end
+end
+
+# 마지막 남은 제품들 저장
+unless products.empty?
+  Product.transaction do
+    products.each do |product_data|
+      product = Product.new(
+        name: product_data[:name],
+        description: product_data[:description],
+        price: product_data[:price],
+        stock_quantity: product_data[:stock_quantity],
+        sale_price: product_data[:sale_price],
+        new_arrival: product_data[:new_arrival]
+      )
+
+      # Attach image from local file using Active Storage
+      image_filepath = Rails.root.join('db', 'images', product_data[:image_filename])
+      if File.exist?(image_filepath)
+        product.images.attach(io: File.open(image_filepath), filename: product_data[:image_filename])
+        puts "Image attached for product '#{product_data[:name]}'"
+      else
+        puts "Image file not found for product '#{product_data[:name]}'"
+      end
+
+      product.save!
+
+      # Assign categories
+      category = Category.find_by(name: product_data[:category_name])
+      if category
+        ProductCategory.create!(product: product, category: category)
+      else
+        puts "Category '#{product_data[:category_name]}' not found for product '#{product_data[:name]}'"
+      end
+    end
+  end
+end
+
+puts "Seed data imported successfully!"
