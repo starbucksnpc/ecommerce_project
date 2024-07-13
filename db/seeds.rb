@@ -162,7 +162,7 @@ CSV.foreach(Rails.root.join('db', 'ecommerce.csv'), headers: true) do |row|
 end
 
 puts "Seed data imported successfully!"
-=end
+
 
 
 # db/seeds.rb
@@ -268,6 +268,66 @@ unless products.empty?
         puts "Category '#{product_data[:category_name]}' not found for product '#{product_data[:name]}'"
       end
     end
+  end
+end
+
+puts "Seed data imported successfully!"
+=end
+
+# db/seeds.rb
+
+require 'csv'
+require 'open-uri'
+
+# Clear existing data
+ProductCategory.delete_all
+Product.delete_all
+Category.delete_all
+
+# Create new categories
+categories = %w[Earrings Rings Necklaces Bracelets]
+categories.each do |category_name|
+  Category.create!(name: category_name)
+end
+
+# Import products from CSV
+CSV.foreach(Rails.root.join('db', 'ecommerce.csv'), headers: true) do |row|
+  # product-link 값을 그대로 파일 이름으로 설정
+  filename = "#{row['product-link']}.jpg"
+
+  # 가격 문자열에서 숫자만 추출
+  price_string = row['price']
+  price_match = price_string.match(/\d+(\.\d+)?/)
+  price = price_match ? price_match[0].to_f : 0.0
+
+  puts "Processing product: #{row['name']}, Price: #{price}"
+
+  product = Product.new(
+    name: row['name'],
+    description: row['description'],
+    price: price,
+    stock_quantity: 10,
+    sale_price: 0.0,
+    new_arrival: false
+  )
+
+  # Attach image from local file using Active Storage
+  image_filepath = Rails.root.join('db', 'images', filename)
+  if File.exist?(image_filepath)
+    product.images.attach(io: File.open(image_filepath), filename: filename)
+    puts "Image attached for product '#{row['name']}'"
+  else
+    puts "Image file not found for product '#{row['name']}'"
+  end
+
+  product.save!
+
+  # Assign categories
+  category = Category.find_by(name: row['category-link'])
+  if category
+    ProductCategory.create!(product: product, category: category)
+  else
+    puts "Category '#{row['category-link']}' not found for product '#{row['name']}'"
   end
 end
 
