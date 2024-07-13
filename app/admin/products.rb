@@ -11,7 +11,9 @@ ActiveAdmin.register Product do
     column :description
     column :price
     column :stock_quantity
-    
+    column "Categories" do |product|
+      product.categories.map(&:name).join(", ")
+    end
     actions
   end
 
@@ -42,6 +44,7 @@ ActiveAdmin.register Product do
       f.input :price
       f.input :stock_quantity
       f.input :images, as: :file, input_html: { multiple: true }, hint: f.object.images.attached? ? image_tag(url_for(f.object.images.first.variant(resize: "100x100"))) : content_tag(:span, "Upload JPG/PNG/GIF image")
+      f.input :categories, as: :check_boxes, collection: Category.all
     end
     f.actions
   end

@@ -101,7 +101,6 @@ ProductCategory.create([
 ]) 
 
 
-# db/seeds.rb
 
 about_page_content = <<-CONTENT.strip_heredoc
   <p>This is our About Us page content.</p>
@@ -117,6 +116,6 @@ CONTENT
 about_page = StaticPage.find_or_initialize_by(title: 'About Us')
 about_page.update(content: about_page_content)
 
-contact_page = StaticPage.find_or_initialize_by(title: 'Contact Us')
+contact_page = StaticPage.find_or_initialize_by(title: 'Contact')
 contact_page.update(content: contact_page_content)
 =end
