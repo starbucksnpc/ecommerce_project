@@ -118,4 +118,48 @@ about_page.update(content: about_page_content)
 
 contact_page = StaticPage.find_or_initialize_by(title: 'Contact')
 contact_page.update(content: contact_page_content)
+
+
+
+
+
+require 'csv'
+require 'open-uri'  # 이미지를 Active Storage에 저장할 경우 사용
+
+# Clear existing data
+ProductCategory.delete_all
+Product.delete_all
+Category.delete_all
+
+# Create new categories
+categories = %w[Earrings Rings Necklaces Bracelets]
+categories.each do |category_name|
+  Category.create!(name: category_name)
+end
+
+# Import products from CSV
+CSV.foreach(Rails.root.join('db', 'ecommerce.csv'), headers: true) do |row|
+  product = Product.new(
+    name: row['name'],
+    description: row['description'],
+    price: row['price'].to_f,
+    image_url: row['image'],  
+    stock_quantity: 10,  # 임의로 수량 설정, 필요에 따라 수정
+    sale_price: 0.0,  # CSV에 sale_price와 new_arrival이 없으므로 임의 값 설정
+    new_arrival: false
+  )
+
+  product.save!
+
+  # Assign categories
+  category_name = row['category-link']  
+  category = Category.find_by(name: category_name)
+  if category
+    ProductCategory.create!(product: product, category: category)
+  else
+    puts "Category '#{category_name}' not found for product '#{row['name']}'"
+  end
+end
+
+puts "Seed data imported successfully!"
 =end
