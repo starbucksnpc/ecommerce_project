@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   get 'home/index'
   resources :users
   resources :provinces
-  resources :products
+  resources :products, only: [:show]
   resources :categories, only: [:show]
   resources :orders
   resources :order_items

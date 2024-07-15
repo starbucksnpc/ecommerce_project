@@ -1,0 +1,8 @@
+<h1><%= @product.name %></h1>
+<p><%= @product.description %></p>
+<p><%= number_to_currency(@product.price) %></p>
+<% if @product.images.attached? %>
+  <%= image_tag url_for(@product.images.first.variant(resize: "400x400")) %>
+<% else %>
+  <p>No Image</p>
+<% end %>
