@@ -1,2 +1,16 @@
-<h1>Welcome to the Ecommerce Site</h1>
-<p>This is your homepage.</p>
+<!-- app/views/home/index.html.erb -->
+<h1>Available Products</h1>
+<div class="products">
+  <% @products.each do |product| %>
+    <div class="product">
+      <h2><%= link_to product.name, product_path(product) %></h2>
+      <p><%= product.description %></p>
+      <p><%= number_to_currency(product.price) %></p>
+      <% if product.images.attached? %>
+        <%= image_tag url_for(product.images.first.variant(resize: "100x100")) %>
+      <% else %>
+        <p>No Image</p>
+      <% end %>
+    </div>
+  <% end %>
+</div>
