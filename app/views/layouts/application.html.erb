@@ -16,8 +16,13 @@
   <header>
     <h1></h1>
     <nav>
-      <%= link_to 'Home', root_path %>
-      <%= link_to 'Products', products_path %>
+      
+        <%= link_to 'Home', root_path %>
+        <% Category.all.each do |category| %>
+          <%= link_to category.name, category_path(category) %>
+        <% end %>
+      
+      
       <%= link_to 'Carts', carts_path %>
       <%= link_to 'About', about_path %>
       <%= link_to 'Contact', contact_path %>
