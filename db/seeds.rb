@@ -272,7 +272,7 @@ unless products.empty?
 end
 
 puts "Seed data imported successfully!"
-=end
+
 
 # db/seeds.rb
 
@@ -332,3 +332,4 @@ CSV.foreach(Rails.root.join('db', 'ecommerce.csv'), headers: true) do |row|
 end
 
 puts "Seed data imported successfully!"
+=end
