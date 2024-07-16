@@ -1,27 +1,37 @@
-<!-- app/views/home/index.html.erb -->
-<h1 class="text-2xl font-bold mb-4">Available Products</h1>
-<nav class="mb-6 flex space-x-4">
-  <%= link_to 'All', root_path, class: "text-blue-500 hover:underline" %>
-  <%= link_to 'On Sale', root_path(filter: 'on_sale'), class: "text-blue-500 hover:underline" %>
-  <%= link_to 'New', root_path(filter: 'new'), class: "text-blue-500 hover:underline" %>
-</nav>
-<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-  <% @products.each do |product| %>
-    <div class="bg-white shadow rounded-lg p-4">
-      <h2 class="text-xl font-semibold mb-2"><%= link_to product.name, product_path(product), class: "text-blue-500 hover:underline" %></h2>
-      <p class="text-gray-700 mb-2"><%= product.description %></p>
-      <p class="text-gray-900 font-bold mb-2">Price: <%= number_to_currency(product.price) %></p>
-      <% if params[:filter] == 'on_sale' %>
-        <p class="text-red-600 font-bold mb-2">Sale Price: <%= number_to_currency(product.sale_price) if product.sale_price.present? %></p>
-      <% end %>
-      <% if product.images.attached? %>
-        <%= image_tag url_for(product.images.first.variant(resize: "100x100")), class: "w-full h-48 object-cover" %>
-      <% else %>
-        <p class="text-gray-500">No Image</p>
-      <% end %>
-    </div>
-  <% end %>
-</div>
-<div class="mt-6">
-  <%= paginate @products %>
+
+<div class="container mx-auto px-4 py-6">
+  <div class="flex justify-between items-center">
+    <nav class="mb-6 flex space-x-4">
+      <%= link_to 'All', root_path, class: "text-lg text-black hover:text-gray-700" %>
+      <%= link_to 'On Sale', root_path(filter: 'on_sale'), class: "text-lg text-red-600 hover:text-red-400" %>
+      <%= link_to 'New', root_path(filter: 'new'), class: "text-lg text-black hover:text-gray-700" %>
+    </nav>
+  </div>
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    <% @products.each do |product| %>
+      <div class="bg-white shadow-md rounded-lg p-6 flex flex-col items-center">
+        <% if product.images.attached? %>
+          <div class="mb-4">
+            <%= image_tag url_for(product.images.first.variant(resize: "200x200", quality: 100)), class: "w-40 h-40 object-cover" %>
+          </div>
+        <% else %>
+          <div class="mb-4 bg-gray-100 rounded w-40 h-40 flex items-center justify-center text-gray-500">
+            No Image
+          </div>
+        <% end %>
+        <h2 class="text-lg font-semibold mb-2 text-center"><%= link_to product.name, product_path(product), class: "text-black hover:text-gray-700" %></h2>
+        
+        <div class="text-center">
+          <p class="text-gray-900 font-bold"><%= number_to_currency(product.price) %></p>
+          <% if product.sale_price.present? && product.sale_price != 0.0 %>
+
+            <p class="text-red-600 font-bold"><%= number_to_currency(product.sale_price) %></p>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <div class="mt-6">
+    <%= paginate @products %>
+  </div>
 </div>
