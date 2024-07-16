@@ -8,6 +8,8 @@ class Product < ApplicationRecord
         ["created_at", "description", "id", "id_value", "image_url", "name", "new_arrival", "price", "sale_price", "stock_quantity", "updated_at"]
       end
 
+      
+
 
     has_many_attached :images
 

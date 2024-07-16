@@ -1,15 +1,21 @@
-<h1><%= @category.name %></h1>
-<div class="products">
-  <% @products.each do |product| %>
-    <div class="product">
-      <h2><%= link_to product.name, product_path(product) %></h2>
-      <p><%= product.description %></p>
-      <p><%= number_to_currency(product.price) %></p>
-      <% if product.images.attached? %>
-        <%= image_tag url_for(product.images.first.variant(resize: "100x100")) %>
-      <% else %>
-        <p>No Image</p>
-      <% end %>
-    </div>
-  <% end %>
+<!-- app/views/categories/show.html.erb -->
+<div class="container mx-auto px-4 py-6">
+  <h1 class="text-3xl font-bold mb-4"><%= @category.name %></h1>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <% @category.products.each do |product| %>
+      <div class="bg-white shadow rounded-lg p-4">
+        <% if product.images.attached? %>
+          <%= image_tag url_for(product.images.first.variant(resize_to_limit: [100, 100], quality: 100)), class: "w-32 h-32 object-cover mb-4" %>
+        <% else %>
+          <p class="text-gray-500 mb-4">No Image</p>
+        <% end %>
+        <h2 class="text-xl font-bold"><%= link_to product.name, product_path(product) %></h2>
+        <p class="text-gray-700 mb-2"><%= product.description %></p>
+        <p class="text-gray-900 font-bold"><%= number_to_currency(product.price) %></p>
+        <% if product.sale_price.present? && product.sale_price < product.price && product.sale_price > 0.0 %>
+          <p class="text-red-600 font-bold"><%= number_to_currency(product.sale_price) %></p>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
 </div>

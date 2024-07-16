@@ -1,2 +1,9 @@
-<h1>Contact Us</h1>
-<%= @contact_page.content.html_safe if @contact_page %>
+<!-- app/views/static_pages/contact.html.erb -->
+<div class="container mx-auto px-4 py-6">
+  <h1 class="text-4xl font-extrabold text-center mb-8">Contact Us</h1>
+  <div class="bg-white shadow-lg rounded-lg p-8">
+    <div class="prose lg:prose-xl">
+      <%= @contact_page.content.html_safe if @contact_page %>
+    </div>
+  </div>
+</div>
