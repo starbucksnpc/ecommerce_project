@@ -1,4 +1,5 @@
 class Product < ApplicationRecord
+  paginates_per 10
 
     def self.ransackable_associations(auth_object = nil)
         ["cart_items", "categories", "order_items", "product_categories"]

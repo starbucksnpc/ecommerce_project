@@ -1,0 +1,12 @@
+<!-- app/views/kaminari/default/_paginator.html.erb -->
+<div class="flex justify-between items-center">
+  <%= link_to_unless @current_page.first?, '<', url_for(page: @current_page.prev), class: "px-3 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300" %>
+  <div class="flex space-x-2">
+    <% @current_page.each_page do |page| %>
+      <% if page.left_outer? || page.right_outer? || page.inside_window? %>
+        <%= link_to_unless page.current?, page, url_for(page: page), class: "px-3 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300" %>
+      <% end %>
+    <% end %>
+  </div>
+  <%= link_to_unless @current_page.last?, '>', url_for(page: @current_page.next), class: "px-3 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300" %>
+</div>
