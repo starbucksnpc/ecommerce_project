@@ -1,11 +1,20 @@
 <!-- app/views/home/index.html.erb -->
 <h1>Products</h1>
+<nav>
+  <%= link_to 'All', root_path %>
+  <%= link_to 'On Sale', root_path(filter: 'on_sale') %>
+  <%= link_to 'New', root_path(filter: 'new') %>
+</nav>
+
 <div class="products">
   <% @products.each do |product| %>
     <div class="product">
       <h2><%= link_to product.name, product_path(product) %></h2>
       <p><%= product.description %></p>
-      <p><%= number_to_currency(product.price) %></p>
+      <p>Price: <%= number_to_currency(product.price) %></p>
+      <% if params[:filter] == 'on_sale' %>
+        <p>Sale Price: <%= number_to_currency(product.sale_price) if product.sale_price.present? %></p>
+      <% end %>
       <% if product.images.attached? %>
         <%= image_tag url_for(product.images.first.variant(resize: "100x100")) %>
       <% else %>
