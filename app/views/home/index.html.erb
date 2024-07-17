@@ -1,15 +1,25 @@
-
+<!-- app/views/home/index.html.erb -->
 <div class="container mx-auto px-4 py-6">
-  <div class="flex justify-between items-center">
-    <nav class="mb-6 flex space-x-4">
+  <div class="flex justify-between items-center mb-6">
+    <nav class="flex space-x-6">
       <%= link_to 'All', root_path, class: "text-lg text-black hover:text-gray-700" %>
       <%= link_to 'On Sale', root_path(filter: 'on_sale'), class: "text-lg text-red-600 hover:text-red-400" %>
       <%= link_to 'New', root_path(filter: 'new'), class: "text-lg text-black hover:text-gray-700" %>
     </nav>
+    <div>
+      <%= form_with url: root_path, method: :get, local: true do %>
+        <div class="flex space-x-4 items-center">
+          <%= select_tag :category_id, options_from_collection_for_select(Category.all, :id, :name, params[:category_id]), include_blank: "All Categories", class: "border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500" %>
+          <%= text_field_tag :keyword, params[:keyword], placeholder: "Search...", class: "border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 hover:text-blue-500 ml-4" %>
+          <%= submit_tag "Search", class: "bg-blue-500 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-400 ml-4" %>
+        </div>
+      <% end %>
+    </div>
   </div>
+
   <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
     <% @products.each do |product| %>
-      <div class="bg-white shadow-md rounded-lg p-6 flex flex-col items-center">
+      <div class="bg-gray-100 shadow-md rounded-lg p-6 flex flex-col items-center">
         <% if product.images.attached? %>
           <div class="mb-4">
             <%= image_tag url_for(product.images.first.variant(resize: "200x200", quality: 100)), class: "w-40 h-40 object-cover" %>
@@ -24,7 +34,6 @@
         <div class="text-center">
           <p class="text-gray-900 font-bold"><%= number_to_currency(product.price) %></p>
           <% if product.sale_price.present? && product.sale_price != 0.0 %>
-
             <p class="text-red-600 font-bold"><%= number_to_currency(product.sale_price) %></p>
           <% end %>
         </div>
