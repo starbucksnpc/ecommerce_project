@@ -1,14 +1,19 @@
 Rails.application.routes.draw do
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
+
   get 'home/index'
   resources :users
   resources :provinces
-  resources :products, only: [:show]
+  resources :products, only: [:index, :show]
   resources :categories, only: [:show]
   resources :orders
   resources :order_items
-  resources :carts
+  resource :cart, only: [:show, :update, :destroy] do
+    post 'add', to: 'carts#add'
+    delete 'remove', to: 'carts#remove'
+    get 'checkout', to: 'carts#checkout'
+  end
   resources :cart_items
   
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

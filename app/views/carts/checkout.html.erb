@@ -1,0 +1,8 @@
+<!-- app/views/carts/checkout.html.erb -->
+<h1 class="text-2xl font-bold mb-4">Checkout</h1>
+<% if @cart.empty? %>
+  <p class="text-gray-700">Your cart is empty.</p>
+<% else %>
+  <p class="text-gray-700">Proceed with your checkout process here.</p>
+  <!-- 여기에 결제 폼이나 결제 버튼 추가 -->
+<% end %>
