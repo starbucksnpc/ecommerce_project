@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   resource :cart, only: [:show, :update, :destroy] do
     post 'add', to: 'carts#add'
     delete 'remove', to: 'carts#remove'
+    patch 'update_quantity', to: 'carts#update_quantity'
     get 'checkout', to: 'carts#checkout'
   end
   resources :cart_items

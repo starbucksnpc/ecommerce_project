@@ -23,6 +23,19 @@ class CartsController < ApplicationController
     redirect_to cart_path, notice: 'Product removed from cart!'
   end
 
+  def update_quantity
+    product_id = params[:product_id].to_s
+    quantity = params[:quantity].to_i
+
+    if quantity > 0
+      session[:cart][product_id] = quantity
+    else
+      session[:cart].delete(product_id)
+    end
+
+    redirect_to cart_path, notice: 'Quantity updated!'
+  end
+
   def checkout
     @cart = session[:cart] || {}
   end

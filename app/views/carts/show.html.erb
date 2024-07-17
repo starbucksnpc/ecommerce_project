@@ -17,7 +17,13 @@
         <% product = Product.find(product_id.to_i) %>
         <tr>
           <td class="py-2 px-4"><%= product.name %></td>
-          <td class="py-2 px-4"><%= quantity %></td>
+          <td class="py-2 px-4">
+            <%= form_with url: update_quantity_cart_path, method: :patch, local: true, class: "flex items-center space-x-2" do %>
+              <%= hidden_field_tag :product_id, product.id %>
+              <%= number_field_tag :quantity, quantity, min: 1, class: "border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 w-16" %>
+              <%= submit_tag "Update", class: "bg-blue-500 text-white px-2 py-1 rounded-lg shadow hover:bg-blue-400" %>
+            <% end %>
+          </td>
           <td class="py-2 px-4"><%= number_to_currency(product.price) %></td>
           <td class="py-2 px-4"><%= number_to_currency(product.price * quantity) %></td>
           <td class="py-2 px-4">
