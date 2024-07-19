@@ -31,6 +31,9 @@
         <h2 class="text-lg font-semibold mb-2 text-center"><%= link_to product.name, product_path(product), class: "text-black hover:text-gray-700" %></h2>
         
         <div class="text-center">
+          <% if product.new_arrival? %>
+            <span class="text-green-500 font-bold">New</span>
+          <% end %>
           <% if product.sale_price.present? && product.sale_price != 0.0 %>
             <p class="text-gray-500 line-through"><%= number_to_currency(product.price) %></p>
             <p class="text-red-600 font-bold"><%= number_to_currency(product.sale_price) %></p>

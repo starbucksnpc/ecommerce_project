@@ -5,7 +5,7 @@ class HomeController < ApplicationController
     if params[:filter] == 'on_sale'
       @products = @products.where('sale_price < price AND sale_price != 0')
     elsif params[:filter] == 'new'
-      @products = @products.where(new_arrival: true)
+      @products = @products.where('created_at >= ?', 3.days.ago)
     end
 
     if params[:keyword].present?
