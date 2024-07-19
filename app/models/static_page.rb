@@ -3,4 +3,7 @@ class StaticPage < ApplicationRecord
     ["content", "created_at", "id", "id_value", "title", "updated_at"]
   end
   
+  # Validations
+  validates :title, presence: true
+  validates :content, presence: true
 end
