@@ -7,6 +7,8 @@ class User < ApplicationRecord
   validates :username, presence: true, uniqueness: true
   validates :email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :address, presence: true
-  validates :password, presence: true, length: { minimum: 6 }, if: :password_digest_changed?
 
+  # Devise modules
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :validatable
 end

@@ -333,3 +333,17 @@ end
 
 puts "Seed data imported successfully!"
 =end
+
+Province.create(name: 'Alberta', gst_rate: 0.05, pst_rate: 0.00, hst_rate: 0.00, qst_rate: 0.00)
+Province.create(name: 'British Columbia', gst_rate: 0.05, pst_rate: 0.07, hst_rate: 0.00, qst_rate: 0.00)
+Province.create(name: 'Manitoba', gst_rate: 0.05, pst_rate: 0.07, hst_rate: 0.00, qst_rate: 0.00)
+Province.create(name: 'New Brunswick', gst_rate: 0.00, pst_rate: 0.00, hst_rate: 0.15, qst_rate: 0.00)
+Province.create(name: 'Newfoundland and Labrador', gst_rate: 0.00, pst_rate: 0.00, hst_rate: 0.15, qst_rate: 0.00)
+Province.create(name: 'Northwest Territories', gst_rate: 0.05, pst_rate: 0.00, hst_rate: 0.00, qst_rate: 0.00)
+Province.create(name: 'Nova Scotia', gst_rate: 0.00, pst_rate: 0.00, hst_rate: 0.15, qst_rate: 0.00)
+Province.create(name: 'Nunavut', gst_rate: 0.05, pst_rate: 0.00, hst_rate: 0.00, qst_rate: 0.00)
+Province.create(name: 'Ontario', gst_rate: 0.00, pst_rate: 0.00, hst_rate: 0.13, qst_rate: 0.00)
+Province.create(name: 'Prince Edward Island', gst_rate: 0.00, pst_rate: 0.00, hst_rate: 0.15, qst_rate: 0.00)
+Province.create(name: 'Quebec', gst_rate: 0.05, pst_rate: 0.00, hst_rate: 0.00, qst_rate: 0.09975)
+Province.create(name: 'Saskatchewan', gst_rate: 0.05, pst_rate: 0.06, hst_rate: 0.00, qst_rate: 0.00)
+Province.create(name: 'Yukon', gst_rate: 0.05, pst_rate: 0.00, hst_rate: 0.00, qst_rate: 0.00)

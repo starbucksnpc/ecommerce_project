@@ -75,3 +75,7 @@ gem "devise", "~> 4.9"
 gem "sassc-rails", "~> 2.1"
 
 gem "kaminari", "~> 1.2.2"
+
+gem "rails-ujs"
+
+gem 'jquery-rails'
