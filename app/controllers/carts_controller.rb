@@ -1,4 +1,3 @@
-# app/controllers/carts_controller.rb
 class CartsController < ApplicationController
   def show
     @cart = session[:cart] || {}
@@ -37,6 +36,6 @@ class CartsController < ApplicationController
   end
 
   def checkout
-    @cart = session[:cart] || {}
+    redirect_to new_checkout_path
   end
 end

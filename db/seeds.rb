@@ -332,7 +332,7 @@ CSV.foreach(Rails.root.join('db', 'ecommerce.csv'), headers: true) do |row|
 end
 
 puts "Seed data imported successfully!"
-=end
+
 
 Province.create(name: 'Alberta', gst_rate: 0.05, pst_rate: 0.00, hst_rate: 0.00, qst_rate: 0.00)
 Province.create(name: 'British Columbia', gst_rate: 0.05, pst_rate: 0.07, hst_rate: 0.00, qst_rate: 0.00)
@@ -347,3 +347,4 @@ Province.create(name: 'Prince Edward Island', gst_rate: 0.00, pst_rate: 0.00, hs
 Province.create(name: 'Quebec', gst_rate: 0.05, pst_rate: 0.00, hst_rate: 0.00, qst_rate: 0.09975)
 Province.create(name: 'Saskatchewan', gst_rate: 0.05, pst_rate: 0.06, hst_rate: 0.00, qst_rate: 0.00)
 Province.create(name: 'Yukon', gst_rate: 0.05, pst_rate: 0.00, hst_rate: 0.00, qst_rate: 0.00)
+=end

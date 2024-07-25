@@ -3,7 +3,9 @@ class CheckoutsController < ApplicationController
 
   def new
     @cart = session[:cart] || {}
-    @order = Order.new
+    @order = Order.new(address: current_user.address, province: current_user.province)
+    @order.calculate_total_price(@cart)
+    @order.calculate_taxes(@cart)
   end
 
   def create
@@ -11,17 +13,8 @@ class CheckoutsController < ApplicationController
     @order = current_user.orders.build(order_params)
     @order.province = current_user.province
 
-    # Calculate taxes
-    gst_rate = current_user.province.gst_rate || 0
-    pst_rate = current_user.province.pst_rate || 0
-    hst_rate = current_user.province.hst_rate || 0
-    qst_rate = current_user.province.qst_rate || 0
-
-    @order.gst = @cart.sum { |product_id, quantity| Product.find(product_id).price * quantity * gst_rate }
-    @order.pst = @cart.sum { |product_id, quantity| Product.find(product_id).price * quantity * pst_rate }
-    @order.hst = @cart.sum { |product_id, quantity| Product.find(product_id).price * quantity * hst_rate }
-    @order.qst = @cart.sum { |product_id, quantity| Product.find(product_id).price * quantity * qst_rate }
-    @order.total_price = @cart.sum { |product_id, quantity| Product.find(product_id).price * quantity } + @order.gst + @order.pst + @order.hst + @order.qst
+    @order.calculate_total_price(@cart)
+    @order.calculate_taxes(@cart)
 
     if @order.save
       @cart.each do |product_id, quantity|
@@ -38,6 +31,6 @@ class CheckoutsController < ApplicationController
   private
 
   def order_params
-    params.require(:order).permit(:address, :province_id)
+    params.require(:order).permit(:address, :province_id, :status)
   end
 end
