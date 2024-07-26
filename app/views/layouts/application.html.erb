@@ -14,20 +14,29 @@
     <header class="bg-white shadow">
       <div class="container mx-auto px-4 py-6 flex justify-between items-center">
         <h1 class="text-3xl font-bold text-gray-900"><%= link_to 'Beauty Choice by MM', root_path, class: "hover:text-blue-500" %></h1>
-        <nav class="flex space-x-8 text-lg">
-          <% Category.all.each do |category| %>
-            <%= link_to category.name, category_path(category), class: "text-gray-700 hover:text-blue-500 transition duration-300" %>
-          <% end %>
-          <%= link_to 'Cart', cart_path, class: "text-gray-700 hover:text-blue-500 transition duration-300" %>
-          <%= link_to 'About', about_path, class: "text-gray-700 hover:text-blue-500 transition duration-300" %>
-          <%= link_to 'Contact', contact_path, class: "text-gray-700 hover:text-blue-500 transition duration-300" %>
-          <% if user_signed_in? %>
-            <%= link_to 'Profile', edit_user_registration_path, class: "text-gray-700 hover:text-blue-500 transition duration-300" %>
-            <%= link_to 'Logout', destroy_user_session_path, data: { turbo_method: :delete }, class: "text-gray-700 hover:text-blue-500 transition duration-300" %>
-          <% else %>
-            <%= link_to 'Sign Up', new_user_registration_path, class: "text-gray-700 hover:text-blue-500 transition duration-300" %>
-            <%= link_to 'Login', new_user_session_path, class: "text-gray-700 hover:text-blue-500 transition duration-300" %>
-          <% end %>
+        <div class="block lg:hidden">
+          <button id="nav-toggle" class="text-gray-700 focus:outline-none">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+            </svg>
+          </button>
+        </div>
+        <nav class="w-full flex-grow lg:flex lg:items-center lg:w-auto hidden lg:block" id="nav-content">
+          <ul class="lg:flex lg:justify-end space-x-8">
+            <% Category.all.each do |category| %>
+              <li><%= link_to category.name, category_path(category), class: "block lg:inline-block text-gray-700 hover:text-blue-500 transition duration-300" %></li>
+            <% end %>
+            <li><%= link_to 'Cart', cart_path, class: "block lg:inline-block text-gray-700 hover:text-blue-500 transition duration-300" %></li>
+            <li><%= link_to 'About', about_path, class: "block lg:inline-block text-gray-700 hover:text-blue-500 transition duration-300" %></li>
+            <li><%= link_to 'Contact', contact_path, class: "block lg:inline-block text-gray-700 hover:text-blue-500 transition duration-300" %></li>
+            <% if user_signed_in? %>
+              <li><%= link_to 'Profile', edit_user_registration_path, class: "block lg:inline-block text-gray-700 hover:text-blue-500 transition duration-300" %></li>
+              <li><%= link_to 'Logout', destroy_user_session_path, data: { turbo_method: :delete }, class: "block lg:inline-block text-gray-700 hover:text-blue-500 transition duration-300" %></li>
+            <% else %>
+              <li><%= link_to 'Sign Up', new_user_registration_path, class: "block lg:inline-block text-gray-700 hover:text-blue-500 transition duration-300" %></li>
+              <li><%= link_to 'Login', new_user_session_path, class: "block lg:inline-block text-gray-700 hover:text-blue-500 transition duration-300" %></li>
+            <% end %>
+          </ul>
         </nav>
       </div>
     </header>
@@ -42,5 +51,15 @@
       </div>
     </footer>
 
+    <script>
+      document.getElementById("nav-toggle").onclick = function() {
+        var navContent = document.getElementById("nav-content");
+        if (navContent.classList.contains("hidden")) {
+          navContent.classList.remove("hidden");
+        } else {
+          navContent.classList.add("hidden");
+        }
+      };
+    </script>
   </body>
 </html>
